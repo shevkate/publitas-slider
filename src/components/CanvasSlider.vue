@@ -34,19 +34,23 @@ let dragStartX = 0
 let dragStartScrollX = 0
 
 function loadImages() {
+ // Set counter and render updates
+  const handleComplete = () => {
+    imagesLoaded++
+    state.needsRender = true
+  }
+
   imageUrls.forEach((url) => {
     const img = new Image()
     img.crossOrigin = 'anonymous'
-    img.onload = () => {
-      imagesLoaded++
-      if (imagesLoaded === imageUrls.length) {
-        state.needsRender = true
-      }
+
+    img.onload = handleComplete
+
+    img.onerror = (e) => {
+      console.error('Failed to load image:', url, e)
+      handleComplete()
     }
-    img.onerror = () => {
-      console.error('Failed to load image:', url)
-      imagesLoaded++
-    }
+
     img.src = url
     images.push(img)
   })
@@ -54,7 +58,7 @@ function loadImages() {
 
 function drawImage(img: HTMLImageElement, x: number) {
   if (!ctx || !img.complete) return
-
+  // TODO: In production render a placeholder here instead of returning to provide better UX when images fail to load
   const W = CANVAS_WIDTH
   const H = CANVAS_HEIGHT
 
