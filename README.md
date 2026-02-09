@@ -2,6 +2,9 @@
 
  Drag-based image slider built with Vue 3, TypeScript, and HTML5 Canvas.
 
+## 🐶🐶🐶 Live Demo
+**[View Live Demo →](https://shevkate.github.io/publitas-slider/)**
+
 ## Features
 - Free-scrolling carousel with drag interaction
 - Canvas-based rendering for smooth performance
