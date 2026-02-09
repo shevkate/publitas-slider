@@ -62,7 +62,14 @@ function loadImages() {
   })
 }
 
+/**
+ * Draws a single image with aspect ratio preservation
+ *
+ * @param img - HTMLImageElement to draw
+ * @param x - X position on canvas (used for scrolling)
+ */
 function drawImage(img: HTMLImageElement, x: number) {
+  // Return early if not ready
   if (!ctx || !img.complete) return
 
   const W = CANVAS_WIDTH
@@ -81,7 +88,7 @@ function drawImage(img: HTMLImageElement, x: number) {
     return
   }
 
-  // Calculate scaling to fit image within canvas while mintaining aspect ratio
+  // Calculate aspect ratios to determine fit strategy (to width or to height)
   const imgAspect = img.width / img.height
   const canvasAspect = W / H
 
@@ -89,13 +96,15 @@ function drawImage(img: HTMLImageElement, x: number) {
   let drawHeight = H
   let drawX = x
   let drawY = 0
-
+// Fit to width or fit to height
   if (imgAspect > canvasAspect) {
-    // Img is wider than canvas
+    // Img is wider than canvas so fit to width
+    // Create black bars on top and bottom
     drawHeight = W / imgAspect
     drawY = (H - drawHeight) / 2
   } else {
     // Img is taller than canvas
+    // Black bars on left and right
     drawWidth = H * imgAspect
     drawX = x + (W - drawWidth) / 2
   }
@@ -103,6 +112,10 @@ function drawImage(img: HTMLImageElement, x: number) {
   ctx.drawImage(img, drawX, drawY, drawWidth, drawHeight)
 }
 
+/**
+ * Main render function draws the current frame
+ * Only called when state.needsRender === true
+ */
 function render() {
   if (!ctx) return
 
@@ -133,6 +146,10 @@ function render() {
   })
 }
 
+/**
+ * Render loop runs at 60fps but only renders when needed
+ * Avoiding unnecessary redraws (needsRender flag)
+ */
 function loop() {
   if (state.needsRender) {
     state.needsRender = false
@@ -141,6 +158,10 @@ function loop() {
 
   rafId = window.requestAnimationFrame(loop)
 }
+
+/**
+ * Handles drag interaction using Pointer Events API
+ */
 
 function handlePointerDown(e: PointerEvent) {
   const el = canvasRef.value
