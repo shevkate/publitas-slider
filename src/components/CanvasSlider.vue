@@ -19,6 +19,12 @@ const state = {
 // Images
 const images: HTMLImageElement[] = []
 let imagesLoaded = 0
+
+/**
+ * Images from Unsplash CDN
+ * Using different dimensions to test aspect ratio preservation
+ */
+
 const imageUrls = [
   'https://images.unsplash.com/photo-1587300003388-59208cc962cb?w=800&h=600&fit=crop',
   'https://images.unsplash.com/photo-1552053831-71594a27632d?w=600&h=800&fit=crop',
@@ -58,9 +64,22 @@ function loadImages() {
 
 function drawImage(img: HTMLImageElement, x: number) {
   if (!ctx || !img.complete) return
-  // TODO: In production render a placeholder here instead of returning to provide better UX when images fail to load
+
   const W = CANVAS_WIDTH
   const H = CANVAS_HEIGHT
+
+  // Placeholder for failed images
+  if (!img.complete || img.naturalWidth === 0) {
+    ctx.fillStyle = '#2a2a2a'
+    ctx.fillRect(x, 0, W, H)
+
+    ctx.fillStyle = '#666'
+    ctx.font = '14px system-ui'
+    ctx.textAlign = 'center'
+    ctx.fillText('Failed to load', x + W / 2, H / 2)
+
+    return
+  }
 
   // Calculate scaling to fit image within canvas while mintaining aspect ratio
   const imgAspect = img.width / img.height
