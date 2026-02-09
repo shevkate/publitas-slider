@@ -81,3 +81,12 @@ src/
 - requestAnimationFrame-based render loop running at 60fps
 - Visibility (only draws visible images)
 - No unnecessary re-renders when idle
+
+## Development Process
+
+### Requirements Analysis
+- Analyzed reference implementation behavior
+- Identified key features: free-scrolling, drag interaction, aspect ratio preservation
+
+### Key Decisions
+See [DECISIONS.md](./DECISIONS.md) for detailed technical decisions and trade-offs.
