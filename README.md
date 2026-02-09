@@ -26,14 +26,15 @@ Tested and working on:
 
 ## Quick Start
 
-### Run Pre-built Version
-The `dist/` folder contains a pre-built version ready to run:
+### Preview Production Build
 ```bash
-npx serve dist
+npm run build
+npm run preview
 ```
+Open http://localhost:4173
 
-Then open http://localhost:3000
-
+**Note:** The dist/ folder is configured for GitHub Pages deployment.
+Use `npm run preview` to test the production build locally.
 
 ## Development
 
